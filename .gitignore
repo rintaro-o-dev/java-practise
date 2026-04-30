@@ -1,0 +1,42 @@
+### Build ###
+/target/
+/build/
+
+### Java ###
+*.class
+*.jar
+*.war
+*.ear
+
+### Logs ###
+*.log
+logs/
+
+### Spring Boot ###
+/*.iml
+/.mvn/
+.mvn/wrapper/maven-wrapper.jar
+!src/main/resources/
+!src/test/resources/
+
+### Application config (絶対にGitに入れない) ###
+src/main/resources/application.yml
+src/main/resources/application.properties
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+out/
+
+### Eclipse / STS ###
+.project
+.classpath
+.settings/
+
+### VSCode ###
+.vscode/
+
+### OS ###
+.DS_Store
+Thumbs.db
+desktop.ini
