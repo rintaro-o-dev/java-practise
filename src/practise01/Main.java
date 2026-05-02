@@ -88,6 +88,13 @@ public class Main {
 			// その他例外
 		}
 
+		/*
+		// 抽象型クラスのアンボクシングでのキャストの必要性
+		// 抽象クラス一覧(搬出)
+		Integer
+		Number number = Integer.valueOf(10);
+
+		 */
 
 	}
 
