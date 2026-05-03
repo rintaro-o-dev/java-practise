@@ -11,4 +11,11 @@ public class SampleT<T> {
 	public T getValue() {
 		return this.value;
 	}
+
+	/*
+	 * これはできない
+	public void show(T value) {
+		System.out.println(value.intValue());
+	}
+	*/
 }
