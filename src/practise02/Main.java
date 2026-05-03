@@ -54,7 +54,8 @@ public class Main {
 		System.out.println("Object catA: " + catA.toString());
 		System.out.println("Number catB : NG　(SampleTExtNum は Number ではない => 型の不一致)");
 		System.out.println("Integer catC : NG　(SampleTExtNum は Number ではない => 型の不一致))");
-		System.out.println("SampleTExtNum<Number> catD : NG　(SampleTExtNum<Integer> は SampleTExtNum<Number> のサブタイプではない => ジェネリクスは invariant)");
+		System.out.println(
+				"SampleTExtNum<Number> catD : NG　(SampleTExtNum<Integer> は SampleTExtNum<Number> のサブタイプではない => ジェネリクスは invariant)");
 		System.out.println("SampleTExtNum<Integer> catE : " + catE.toString());
 
 		// ジェネリクスクラスの代入可能性 (2. 継承関係に重点)
@@ -68,7 +69,8 @@ public class Main {
 		XB xb = new XB(); // 子
 		XC xc = new XC(); // 孫
 		// XT<T extends XB>
-		// XT<XB> xt1 = new XT<>(xa); <- XA は XB　のサブクラスではない(superクラス)のため、そもそも上限外となり new できない
+		// XT<XB> xt1 = new XT<>(xa); <- XA は XB のサブクラスではない(superクラス)のため、そもそも上限外となり new
+		// できない
 		XT<XB> xt2 = new XT<>(xb); // 上限
 		XT<XB> xt3 = new XT<>(xc); // XC は XB のサブクラスなので引数として渡せるが、型パラメータは左側の XT<XB> で決まるため xt3 の型は XT<XB> になる!!
 		XT<XC> xt4 = new XT<>(xc); // XC は XB のサブクラスなので new できる
@@ -77,7 +79,8 @@ public class Main {
 		// XT<XB> の受け取り
 		Object catXt21 = xt2;
 		XT<XB> catXt22 = xt2;
-		// XT<XC> catXt23 = xt3; <- XC は XB のサブタイプであっても、ジェネリクスは不変(invariant)のため、まったく別の型とみなされNG
+		// XT<XC> catXt23 = xt3; <- XC は XB
+		// のサブタイプであっても、ジェネリクスは不変(invariant)のため、まったく別の型とみなされNG
 		System.out.println("Object catXt2 : " + catXt21.toString());
 		System.out.println("XT<XB> catXt2 : " + catXt22.toString());
 		System.out.println("XT<XC> catXt2 : NG　=> X<C> は X<B> のサブタイプではない　型の不一致)");
@@ -85,7 +88,8 @@ public class Main {
 		System.out.println("\n2. XT<XB> xt3 = new XT<>(xc);");
 		Object catXt31 = xt3;
 		XT<XB> catXt32 = xt3;
-		// XT<XC> catXt33 = xt3; <- xc は XB のサブタイプ XC の型であるためnewまではできても、ジェネリクスは不変(invariant)のため、まったく別の型とみなされNG
+		// XT<XC> catXt33 = xt3; <- xc は XB のサブタイプ XC
+		// の型であるためnewまではできても、ジェネリクスは不変(invariant)のため、まったく別の型とみなされNG
 		System.out.println("Object catXt3 : " + catXt31.toString());
 		System.out.println("XT<XB> catXt3 : " + catXt32.toString());
 		System.out.println("XT<XC> catXt3 : NG　=> X<C> は X<B> のサブタイプではない　型の不一致)");
@@ -98,6 +102,40 @@ public class Main {
 		System.out.println("XT<XB> catXt4 : NG　=> X<B> は X<C> のサブタイプではない　型の不一致)");
 		System.out.println("XT<XC> catXt4 : " + catXt43.toString());
 
+		//
+		// ワイルドカード
+		//
+		System.out.println("\n・ ワイルドカード ↓");
+		// X<?>　(非境界ワイルドカード)
+		System.out.println("1. X<?> (非境界ワイルドカード)");
+		WildT<?> wT1 = new WildT<>("ABC"); // 非境界ワイルドカードで型推論させる
+		String valWT1 = (String) wT1.getVal(); // ワイルドカードで作ったインスタンスからはオブジェクト型でしか値を取り出せない String キャストがいる
+		System.out.println("フィールド値の取り出し : " + valWT1);
+		wT1.setVal(null); // フィールドの型が不定 ? なので継承関係を無視したセットはできないため、プリミティブ変数以外に全て代入できる null のみセットできる
+		System.out.println("null セット");
+		valWT1 = (String) wT1.getVal();
+		System.out.println("フィールド値の取り出し : " + valWT1);
+
+		// X<? extends T> (上限境界)
+		System.out.println("\n2. X<? extends T> (上限境界)");
+		WildT<? extends Integer> wT2 = new WildT<>(10); // Integer を継承していることだけは確かだけど、フィールドは不定?
+		Integer valWT2 = wT2.getVal(); // フィールドは Integer を継承していることだけは確定だから Integer として取り出せる!!
+		System.out.println("フィールド値の取り出し : " + valWT2);
+		wT2.setVal(null); // フィールドの型は不定 ? のままなので継承関係を無視したセットはできないため、プリミティブ変数以外に全て代入できる null のみセットできる
+		System.out.println("null セット");
+		valWT2 = wT2.getVal();
+		System.out.println("フィールド値の取り出し : " + valWT2);
+
+		// X<? super T> (下限境界)
+		System.out.println("\n3. X<? super T> (下限境界)");
+		WildT<? super Integer> wT3 = new WildT<>("ABC"); // Integer より親のクラスであることだけは確かだけど、フィールドは不定?
+		String valWT3 = (String) wT3.getVal(); // Integer より親のクラスであることだけは確かなので、全てのスーパークラスである Object でなら取り出せる　-> String キャストがいる
+		System.out.println("フィールド値の取り出し : " + valWT3);
+		Integer numInteger1 = Integer.valueOf(20);
+		wT3.setVal(numInteger1); // 下限の末端が Integer であることは確かなので、Integer でセットできる
+		System.out.println("Integer セット : " + numInteger1);
+		Integer valWT4 = (Integer) wT3.getVal(); // Integer でセットしたので、キャストも Integer である必要がある。-> ClassCastException
+		System.out.println("フィールド値の取り出し : " + valWT4);
 
 
 	}
