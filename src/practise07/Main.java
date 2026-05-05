@@ -1,9 +1,14 @@
 package practise07;
 
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 public class Main {
 
@@ -58,6 +63,8 @@ public class Main {
 		System.out.println("-- Function.identity()");
 		Function<Integer, Integer> funcE = Function.identity(); // そのまま返す
 		System.out.println("res : " + funcE.apply(1000));
+		// チェーン
+		System.out.println("res : " + funcA.andThen(funcB).andThen(funcC.compose(funcD)).apply(1000));
 
 		// Predicate<T(引数)>
 		// ↓
@@ -110,6 +117,10 @@ public class Main {
 		Predicate<String> predIsEqual = Predicate.isEqual("B"); // 入力が同じか見るだけ
 		System.out.println("res : " + predIsEqual.test("A"));
 		System.out.println("res : " + predIsEqual.test("B"));
+		// チェーン
+		Predicate<Integer> predD = num -> num > 5;
+		predA.and(predC.or(predD)).test(5);
+		predA.and(predC.or(predD)).test(7);
 
 		// Consumer<T(引数)>
 		// @FunctionalInterface
@@ -135,6 +146,8 @@ public class Main {
 		Consumer<Integer> consB = num -> System.out.println("res2 : " + num);
 		Consumer<Integer> consAndThen = consA.andThen(consB); // 同じ引数を使いまわし再実行
 		consAndThen.accept(200);
+		// チェーン
+		consA.andThen(consB).accept(500);
 
 		// Supplier<T(引数)>
 		// ↓
@@ -152,6 +165,54 @@ public class Main {
 		// 使うときは supplier.get(x);
 		System.out.println("Supplier : " + supp1.get());
 
+		//
+		// Bi 版
+		// 引数を渡すインタフェース Function Predicate Consumer に関しては、
+		// 引数が2つあるバージョン "Bi版" が存在する
+		// 引数が2つに対応しているだけで、デフォルトメソッド等は変わらない
+		System.out.println("\n・ Bi 版");
+		// BiFunction<T,U,R>
+		BiFunction<Integer,String,String> biFunc = (num, str) -> { // () 必須!
+			num++;
+			return num + str ;
+		};
+		System.out.println("BiFunction : " + biFunc.apply(100," 人"));
+		// BiPredicate<T,U>
+		BiPredicate<Integer,Integer> biPred = (num1, num2) -> { // () 必須!
+			return num1.equals(num2);
+		};
+		System.out.println("BiPredicate : " + biPred.test(100,200));
+		System.out.println("BiPredicate : " + biPred.test(100,100));
+		// BiConsumer<T,U>
+		BiConsumer<Integer,Integer> biCons = (num1, num2) -> { // () 必須!
+			System.out.println("BiConsumer : " + num1 + " + " + num2 + " = "+ (num1 + num2));
+		};
+		biCons.accept(2, 3);
+
+		//
+		// UnaryOperator<T>
+		// @FunctionalInterface
+		// public interface UnaryOperator<T> extends Function<T, T> {
+		//       // 抽象メソッドは Function と同じ
+		// 		T apply(T t)
+		// }
+		// 引数と戻り値が "同じ型" のときに使う
+		System.out.println("\n・ UnaryOperator<T>");
+		UnaryOperator<Integer> uO1 = num -> num * 2;
+		System.out.println("res : " + uO1.apply(10));
+		System.out.println("res : " + uO1.andThen(uO1).apply(10));
+
+		// Bi 版
+		//　BinaryOperator<T>
+		// 引数1、引数2、返り値 全て同じ型なので、型宣言時も "1種類だけ" でいい！！
+		BinaryOperator<Integer> biUO1 = (num1,num2) -> num1 * num2;
+		System.out.println("BiUnaryOperator : " + biUO1.apply(5, 10));
+		System.out.println("BiUnaryOperator : " + biUO1.andThen(uO1).apply(5, 10)); // andthen(biUO1)はできない
+		// BinaryOperator.andThen(biUO1) ができない理由：
+		// after は Function<T,V> である必要があるが、
+		// BinaryOperator は BiFunction<T,T,T> なので型が合わない。
+		// BinaryOperator.andThen(UnaryOperator) は OK。( = Function<T,T>)
+		// BinaryOperator.andThen(BinaryOperator) は NG。
 	}
 
 }
