@@ -2,7 +2,15 @@ package practise09;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
@@ -60,15 +68,17 @@ public class Main {
 
 		// sorted
 		System.out.println("\n-- sorted");
-		List<Integer> list5 = Arrays.asList(4, 87, 11, 6, 49, 3, 27, 4, 28, 55, 1);
+		List<Integer> list5 = Arrays.asList(4, 87, 11, 6, 49, 3, 27, 4, 28, 55, 5);
 		System.out.println("list : " + list5.toString());
 		System.out.println(" ↓ list..stream().sorted()");
 		list5.stream().sorted().forEach(x -> System.out.print(x + ", ")); // 自然順序
 		System.out.println("");
 		System.out.println(" ↓ list..stream().sorted(compare)");
 		list5.stream().sorted((a, b) -> {
-			if(a > b) return -1;
-			if(a < b) return 1;
+			if (a > b)
+				return -1;
+			if (a < b)
+				return 1;
 			return 0;
 		}).forEach(x -> System.out.print(x + ", ")); // カスタム順序
 		System.out.println("");
@@ -87,6 +97,91 @@ public class Main {
 		System.out.println(list3.stream().reduce(0, (a, b) -> a + b)); // T で返る
 		List<Integer> list6 = new ArrayList<>();
 		System.out.println(list6.stream().reduce(0, (a, b) -> a + b)); // なくても 0 で返る
+
+		// collector
+		System.out.println("\n-- 中間処理と終端処理");
+		// A.stream().collect(collector)
+		// collector には Collector 型の"結果の作り方レシピ"を渡す。
+		// Collectors は “Collector（レシピ）を作る工場”
+		// Collector 型の結果レシピは、Collectors の static メソッドで作成する
+		// Collectors
+		// ├─ toList() / toSet / toCollection : List や Set の結果を作るレシピ
+		// ├─ toMap : Map の結果を作るレシピ
+		// ├─ joining : 文字列結合の結果を作るレシピ
+		// ├─ summarizing / averaging / counting : 集計系の結果を作るレシピ
+		// ├─ groupingBy / partitioningBy : グルーピングした結果を返すレシピ
+		// └─ reducing / mapping / collectingAndThen : 変換した結果を返すレシピ
+		List<Integer> list7 = list5.stream().collect(Collectors.toList());
+		Set<Integer> list8 = list5.stream().collect(Collectors.toSet());
+		Collection<Integer> list9 = list5.stream().collect(Collectors.toCollection(ArrayList::new));
+		Map<Integer, String> map1 = list3.stream().collect(Collectors.toMap(n -> n, // key
+				n -> "value" + n // value
+		));
+		Map<Integer, Integer> map2 = list5.stream().collect(Collectors.toMap(n -> n % 3, // key
+				n -> n, // value
+				(a, b) -> a + b // key が同じ時のマージ
+		));
+		String joinStr1 = list5.stream().map(String::valueOf).collect(Collectors.joining(", "));
+		String joinStr2 = list5.stream().map(String::valueOf).collect(Collectors.joining(", ", "[[", "]]"));
+		long count1 = list5.stream().collect(Collectors.counting());
+		int sum1 = list5.stream().collect(Collectors.summingInt(n -> n));
+		double avg1 = list5.stream().collect(Collectors.averagingInt(n -> n));
+		IntSummaryStatistics status1 = list5.stream().collect(Collectors.summarizingInt(n -> n));
+		Map<Integer, List<Integer>> groups1 = list5.stream().collect(Collectors.groupingBy(n -> n % 3));
+		Map<Boolean, List<Integer>> groups2 = list5.stream().collect(Collectors.partitioningBy(n -> n > 10));
+		int sum2 = list5.stream().collect(Collectors.reducing(0, (a, b) -> a + b));
+		List<String> strList1 = list5.stream().collect(Collectors.mapping(n -> "num:" + n, Collectors.toList()));
+		List<Integer> unmodifiable1 = list5.stream()
+				.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+		// 結果
+		System.out.println("toList : " + list7 + "\ntoSet : " + list8 + "\ntoCollect : " + list9 + "\ntoMap : " + map1
+				+ "\ntoMap : " + map2 + "\njoining : " + joinStr1 + "\njoining : " + joinStr2 + "\ncounting : " + count1
+				+ "\nsummingInt : " + sum1 + "\noveragingInt : " + avg1
+				+ "\nIntSummaryStatics summarizingInt getSum() : " + status1.getSum()
+				+ "\nIntSummaryStatics summarizingInt getAverage() : " + status1.getAverage()
+				+ "\nIntSummaryStatics summarizingInt getMax() : " + status1.getMax()
+				+ "\nIntSummaryStatics summarizingInt getCount() : " + status1.getCount()
+				+ "\nIntSummaryStatics summarizingInt getMin() : " + status1.getMin() + "\ngroupingBy : " + groups1
+				+ "\npartitioningBy : " + groups2 + "\nreducing : " + sum2 + "\nmapping : " + strList1
+				+ "\ncollectingAndThen : " + unmodifiable1);
+
+		// toList() と Collectors.toList() の違い
+		System.out.println("\n-- toList() と Collectors.toList() の違い");
+		List<Integer> listC = List.of(1, 2, 3, 4, 5, 6, 7);
+		System.out.println(listC.stream().map(String::valueOf).collect(Collectors.joining(",", "list <", ">")));
+		List<Integer> resA = listC.stream().filter(n -> n > 3).toList();
+		List<Integer> resB = listC.stream().filter(n -> n > 3).collect(Collectors.toList());
+		try {
+			resA.add(10);
+		} catch (UnsupportedOperationException e) {
+			System.out.println("toList は不変なので add しようとすると UnsupportedOperationException 発生");
+		}
+		resB.add(10);
+		System.out.println(resA.stream().map(String::valueOf).collect(Collectors.joining(",", "toList <", ">")));
+		System.out.println(
+				resB.stream().map(String::valueOf).collect(Collectors.joining(",", "Collectors.toList <", ">")));
+
+		// partitioningBy
+		System.out.println("\n-- partitioningBy");
+		List<String> list10 = List.of("apple", "banana", "orange");
+		Stream<String> streamA = list10.stream();
+		Set keyA = streamA.collect(Collectors.partitioningBy(str -> str.length() > 5)).keySet();
+		keyA.forEach(System.out::println);
+
+		// peek
+		Consumer<String> consA = str -> System.out.println("debug : " + str);
+		list10.stream().filter(str -> str.length() > 5).peek(consA).map(str -> str.toUpperCase()).peek(consA)
+				.forEach(str -> System.out.println("value : " + str));
+
+		// stream の終端操作を"2回"呼び出そうとすると実行時エラー
+		System.out.println("\n-- stream の終端操作を\"2回\"呼び出そうとすると実行時エラー");
+		Stream<Integer> streamB = listC.stream();
+		System.out.println("stream().count() : " + streamB.count());
+		try {
+			streamB.forEach(System.out::println);
+		} catch (IllegalStateException e) {
+			System.out.println("stream().forEach (終端操作2回目)で IllegalStateException が発生");
+		}
 	}
 
 }
@@ -205,4 +300,21 @@ public class Main {
 // --- Stream 系
 // default Stream<E> stream() { ... }
 // default Stream<E> parallelStream() { ... }
+// }
+
+// public interface Collector<T, A, R> {
+// T ... Stream の要素の型
+// A ... 中間バッファ（途中経過を入れる入れ物）
+// R ... 最終結果の型（List, Set, Map, String など）
+//
+// --- 中間バッファ A を新しく作る関数
+// Supplier<A> supplier();
+// --- 中間バッファ A に Stream の要素 T を追加する関数
+// BiConsumer<A, T> accumulator();
+// --- 並列処理時に、部分的に作られた A と A を結合する関数
+// BinaryOperator<A> combiner();
+// --- 最終的に A を R に変換する関数
+// Function<A, R> finisher();
+// --- Collector の性質（セット）
+// Set<Characteristics> characteristics();
 // }
