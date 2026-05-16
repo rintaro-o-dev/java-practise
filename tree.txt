@@ -1,0 +1,126 @@
+フォルダー パスの一覧:  ボリューム OS
+ボリューム シリアル番号は 6A43-6108 です
+C:.
+│  .classpath
+│  .gitignore
+│  .project
+│  README.md
+│  tree.txt
+│  
+├─.settings
+│      org.eclipse.core.resources.prefs
+│      org.eclipse.jdt.core.prefs
+│      
+├─bin
+│  │  module-info.class
+│  │  
+│  ├─practise01
+│  │      Main.class
+│  │      
+│  ├─practise02
+│  │      Main.class
+│  │      SampleT.class
+│  │      SampleTExtNum.class
+│  │      WildT.class
+│  │      XA.class
+│  │      XB.class
+│  │      XC.class
+│  │      XT.class
+│  │      
+│  ├─practise03
+│  │      Main.class
+│  │      
+│  ├─practise04
+│  │      Main.class
+│  │      
+│  ├─practise05
+│  │      Main.class
+│  │      
+│  ├─practise06
+│  │      Algorithm1.class
+│  │      Algorithm2.class
+│  │      Main.class
+│  │      ServiceA.class
+│  │      
+│  ├─practise07
+│  │      Main.class
+│  │      Sample1.class
+│  │      
+│  ├─Practise08
+│  │      Main.class
+│  │      Sample1.class
+│  │      
+│  ├─practise09
+│  │      Main.class
+│  │      
+│  ├─practise10
+│  │      Main.class
+│  │      
+│  └─practise11
+│      ├─module01
+│      │  └─com
+│      │      └─example
+│      │          └─p01
+│      │                  Hello.class
+│      │                  
+│      └─module02
+├─docs
+│      git-memo.md
+│      
+└─src
+    ├─practise01
+    │      Main.java
+    │      
+    ├─practise02
+    │      Main.java
+    │      SampleT.java
+    │      SampleTExtNum.java
+    │      WildT.java
+    │      XA.java
+    │      XB.java
+    │      XC.java
+    │      XT.java
+    │      
+    ├─practise03
+    │      Main.java
+    │      
+    ├─practise04
+    │      Main.java
+    │      
+    ├─practise05
+    │      Main.java
+    │      
+    ├─practise06
+    │      Algorithm1.java
+    │      Algorithm2.java
+    │      Main.java
+    │      ServiceA.java
+    │      
+    ├─practise07
+    │      Main.java
+    │      Sample1.java
+    │      
+    ├─Practise08
+    │      Main.java
+    │      Sample1.java
+    │      
+    ├─practise09
+    │      Main.java
+    │      
+    ├─practise10
+    │      Main.java
+    │      
+    └─practise11
+        │  tree.txt
+        │  
+        ├─module01
+        │  │  module-info.java
+        │  │  
+        │  └─com
+        │      └─example
+        │          └─p01
+        │                  Hello.java
+        │                  
+        └─module02
+                module-info.java
+                
