@@ -38,5 +38,69 @@ public class Main {
 		tB.run();
 		tB.start();
 
+		// 匿名クラスとして、オーバーライドアノテーションをつけて run() を実装
+		Thread tC = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("thread C run 1");
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+				}
+				System.out.println("thread C run 2");
+			}
+		});
+		tC.start();
+		System.out.println("pointA");
+		try {
+			tC.join();
+		} catch (InterruptedException e) {
+		}
+		System.out.println("pointB");
+		// thread C run 1
+		// pointA
+		// thread C run 2 (join でスレッド終了まで待機する)
+		// pointB
+		// になるはず（JVM のスケジューラの気分次第なので若干期待と違う）
+
+		// lockObjを共有する
+		final Object lockObj = new Object();
+		final boolean[] ready = { false };
+		Thread tD = new Thread(() -> {
+			synchronized (lockObj) {
+				System.out.println("thread D run 1");
+			}
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+			}
+			synchronized (lockObj) {
+				System.out.println("thread D run 2");
+				ready[0] = true;
+				lockObj.notify(); // ★準備できた合図(スレッドEを起こす)
+			}
+		});
+		Thread tE = new Thread(() -> {
+			try {
+				synchronized (lockObj) {
+					System.out.println("thread E run 1");
+					while (!ready[0]) {
+						lockObj.wait(); // ★合図が来るまで待つ（ロックを開放して待機）
+					}
+				}
+			} catch (InterruptedException e) {
+			}
+			System.out.println("thread E run 2");
+		});
+
+		tD.start();
+
+		tE.start();
+
+		// thread D run 1
+		// thread E run 1
+		// thread D run 2
+		// thread E run 2
+
 	}
 }
