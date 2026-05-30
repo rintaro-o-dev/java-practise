@@ -20,7 +20,7 @@ public class Main {
 		System.out.println("3: " + sT3.getValue());
 		System.out.println("4: " + sT4.getValue());
 
-		// // ジェネリクスクラスの代入可能性 (1. ラッパークラス等、継承もtおメソッドに重点)
+		// // ジェネリクスクラスの代入可能性 (1. ラッパークラス等、継承元メソッドに重点)
 		// Number を extends したジェネリクスクラスでは、上限が Number に設定される
 		SampleTExtNum<Integer> sTEN1 = new SampleTExtNum<>(123); // 数値型なので可能
 		SampleTExtNum<Double> sTEN2 = new SampleTExtNum<>(123.456); // 数値型なので可能

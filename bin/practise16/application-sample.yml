@@ -1,0 +1,4 @@
+# JDBC の URL 書式
+url : jdbc:mysql://localhost/test
+
+
