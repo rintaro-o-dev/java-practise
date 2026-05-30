@@ -71,10 +71,17 @@ C:.
 „   „       Main.class
 „   „       SampleLock.class
 „   „       
-„   „¤„Ÿpractise15
+„   „¥„Ÿpractise15
+„   „       Main.class
+„   „       Sample.class
+„   „       Sample2.class
+„   „       
+„   „¥„Ÿpractise16
+„   „       application-sample.yml
+„   „       Main.class
+„   „       
+„   „¤„Ÿpractise17
 „           Main.class
-„           Sample.class
-„           Sample2.class
 „           
 „¥„Ÿdocs
 „       git-memo.md
@@ -142,8 +149,15 @@ C:.
     „       Main.java
     „       SampleLock.java
     „       
-    „¤„Ÿpractise15
+    „¥„Ÿpractise15
+    „       Main.java
+    „       Sample.java
+    „       Sample2.java
+    „       
+    „¥„Ÿpractise16
+    „       application-sample.yml
+    „       Main.java
+    „       
+    „¤„Ÿpractise17
             Main.java
-            Sample.java
-            Sample2.java
             
