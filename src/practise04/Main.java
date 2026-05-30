@@ -134,7 +134,7 @@ public class Main {
 		System.out.println("\n・ ラッパークラスの変数を equals で比較 (型が異なる場合) ↓");
 		System.out.println("Short3 : " + valShort3);
 		System.out.println("Long3 : " + valLong3);
-		System.out.println("Short3,Long3 を == で比較 : " + (valShort3.equals(valLong3)));
+		System.out.println("Short3,Long3 を equals で比較 : " + (valShort3.equals(valLong3)));
 
 		// null 比較パターン
 		Byte nullByte = null;
@@ -177,6 +177,7 @@ public class Main {
 		}
 
 		// compareTo
+		// 自然順序！
 		// Comparable のメソッドで、順序比較 A.compareTo(B) で、AがBにたいして小さい(負)、同じ(0)、大きい(正)かを返す
 		// Byte・Short・Character はAがBにたいして小さい(負：-差分)、同じ(0)、大きい(正：差分)かを返す
 		// Integer・Long・Float・Double はAがBにたいして小さい(負：-1)、同じ(0)、大きい(正：1)かを"まるめて"返す

@@ -30,6 +30,9 @@ public class Main {
 		tA.start();
 		tB.start();
 
+		Thread.sleep(1000);;
+		System.out.println("");
+
 		tA = new Thread(() -> {
 			System.out.println("tA");
 			try {
@@ -48,6 +51,9 @@ public class Main {
 		tA.start();
 		tB.start();
 
+		Thread.sleep(2000);;
+		System.out.println("");
+
 		// Executors クラスのスタティックメソッドでスレッドのプールを作れる
 		// 作ったプールを、管理インタフェースに突っ込むことでスレッドのプール管理ができるようになる
 		// ■ スレッドプール管理
@@ -64,13 +70,22 @@ public class Main {
 		poolA.submit(() -> System.out.println("task2"));
 		poolA.submit(() -> System.out.println("task3")); // 3つめはキューにたまる
 
+		Thread.sleep(2000);;
+		System.out.println("");
+
 		ExecutorService poolB = Executors.newCachedThreadPool();
 		poolB.submit(rA); // 時間経過で勝手に消える (60 秒使われなかったらきえる)
+
+		Thread.sleep(2000);;
+		System.out.println("");
 
 		ExecutorService poolC = Executors.newSingleThreadExecutor(); // 一つのスレッドで順に処理する (順番保守)
 		poolC.submit(() -> System.out.println("task1"));
 		poolC.submit(() -> System.out.println("task2"));
 		poolC.submit(() -> System.out.println("task3"));
+
+		Thread.sleep(2000);;
+		System.out.println("");
 
 		// ■ スレッドプール管理の上位互換
 		// ScheduleedWxecuterService

@@ -81,7 +81,7 @@ public class Main {
 			System.out.println("Boolean (abc) : " + vosBoolean03);
 
 			// 文字列が適切でないとエラー発生
-			vosFloat = Float.valueOf("123f"); // f がついていることで純粋な数値ではない
+			vosFloat = Float.valueOf("12.3f"); // f がついていることで純粋な数値ではない
 			System.out.println(vosFloat);
 
 		} catch (NumberFormatException e) {

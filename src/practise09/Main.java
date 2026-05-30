@@ -57,13 +57,13 @@ public class Main {
 
 		// findAny と findFirst
 		System.out.println("\n-- findAny と findFirst");
-		Object fA1 = list3.stream().findAny();
+		Object fA1 = list3.stream().findAny(); // 順序を守らず一番最初　（順当だからこれは1）
 		System.out.println(fA1.toString());
-		Object fA2 = list3.parallelStream().findAny();
+		Object fA2 = list3.parallelStream().findAny(); // 順序を守らず一番最初　（これはガチランダム）
 		System.out.println(fA2.toString());
-		Object fF1 = list3.stream().findFirst();
+		Object fF1 = list3.stream().findFirst(); // 順序を守って一番最初
 		System.out.println(fF1.toString());
-		Object fF2 = list3.parallelStream().findFirst();
+		Object fF2 = list3.parallelStream().findFirst(); // 順序を守って一番最初
 		System.out.println(fF2.toString());
 
 		// sorted
