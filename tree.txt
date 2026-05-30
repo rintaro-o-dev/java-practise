@@ -4,6 +4,7 @@ C:.
 „   .classpath
 „   .gitignore
 „   .project
+„   practise15_input01.txt
 „   README.md
 „   tree.txt
 „   
@@ -12,8 +13,6 @@ C:.
 „       org.eclipse.jdt.core.prefs
 „       
 „¥„Ÿbin
-„   „   module-info.class
-„   „   
 „   „¥„Ÿpractise01
 „   „       Main.class
 „   „       
@@ -56,14 +55,22 @@ C:.
 „   „¥„Ÿpractise10
 „   „       Main.class
 „   „       
-„   „¤„Ÿpractise11
-„       „¥„Ÿmodule01
-„       „   „¤„Ÿcom
-„       „       „¤„Ÿexample
-„       „           „¤„Ÿp01
-„       „                   Hello.class
-„       „                   
-„       „¤„Ÿmodule02
+„   „¥„Ÿpractise12
+„   „       Main$1.class
+„   „       Main.class
+„   „       synchronizedSample.class
+„   „       
+„   „¥„Ÿpractise13
+„   „       LockSample.class
+„   „       Main.class
+„   „       
+„   „¥„Ÿpractise14
+„   „       Main.class
+„   „       SampleLock.class
+„   „       
+„   „¤„Ÿpractise15
+„           Main.class
+„           
 „¥„Ÿdocs
 „       git-memo.md
 „       
@@ -110,17 +117,26 @@ C:.
     „¥„Ÿpractise10
     „       Main.java
     „       
-    „¤„Ÿpractise11
-        „   tree.txt
-        „   
-        „¥„Ÿmodule01
-        „   „   module-info.java
-        „   „   
-        „   „¤„Ÿcom
-        „       „¤„Ÿexample
-        „           „¤„Ÿp01
-        „                   Hello.java
-        „                   
-        „¤„Ÿmodule02
-                module-info.java
-                
+    „¥„Ÿpractise11
+    „   „   module-info.java
+    „   „   
+    „   „¤„Ÿcom
+    „       „¤„Ÿexample
+    „           „¤„Ÿp01
+    „                   Hello.java
+    „                   
+    „¥„Ÿpractise12
+    „       Main.java
+    „       synchronizedSample.java
+    „       
+    „¥„Ÿpractise13
+    „       LockSample.java
+    „       Main.java
+    „       
+    „¥„Ÿpractise14
+    „       Main.java
+    „       SampleLock.java
+    „       
+    „¤„Ÿpractise15
+            Main.java
+            
